@@ -3,6 +3,7 @@ globals [ max-sheep current-sheep current-wolf ]  ; don't let the sheep populati
 ; Sheep and wolves are both breeds of turtles
 breed [ sheep a-sheep ]  ; sheep is its own plural, so we use "a-sheep" as the singular
 breed [ wolves wolf ]
+breed [ bees bee ]
 
 turtles-own [ energy ]       ; both wolves and sheep have energy
 
@@ -53,6 +54,15 @@ to setup
     set energy random (2 * wolf-gain-from-food)
     setxy random-xcor random-ycor
   ]
+
+  create-bees initial-number-bees  ; create the wolves, then initialize their variables
+  [
+    set shape "butterfly"
+    set color yellow
+    set size 1
+    setxy random-xcor random-ycor
+  ]
+
   display-labels
   reset-ticks
 end
@@ -82,7 +92,12 @@ to go
     reproduce-wolves ; wolves reproduce at a random rate governed by a slider
   ]
 
-  if model-version = "sheep-wolves-grass" [ ask patches [ grow-grass ] ]
+  ask bees [
+    move
+    polinizacao
+  ]
+
+  ; if model-version = "sheep-wolves-grass" [ ask patches [ grow-grass ] ]
 
   tick
   display-labels
@@ -99,6 +114,12 @@ to eat-grass  ; sheep procedure
   if pcolor = green [
     set pcolor brown
     set energy energy + sheep-gain-from-food  ; sheep gain energy by eating
+  ]
+end
+
+to polinizacao
+  if pcolor = brown [
+    set pcolor green
   ]
 end
 
@@ -149,15 +170,15 @@ to death-sheep
   ]
 end
 
-to grow-grass  ; patch procedure
-  ; countdown on brown patches: if you reach 0, grow some grass
-  if pcolor = brown [
-    ifelse countdown <= 0
-      [ set pcolor green
-        set countdown grass-regrowth-time ]
-      [ set countdown countdown - 1 ]
-  ]
-end
+;to grow-grass  ; patch procedure
+;  ; countdown on brown patches: if you reach 0, grow some grass
+;  if pcolor = brown [
+;    ifelse countdown <= 0
+;      [ set pcolor green
+;        set countdown grass-regrowth-time ]
+;      [ set countdown countdown - 1 ]
+;  ]
+;end
 
 to-report grass
   ifelse model-version = "sheep-wolves-grass" [
@@ -438,6 +459,21 @@ model-version
 model-version
 "sheep-wolves" "sheep-wolves-grass"
 1
+
+SLIDER
+195
+140
+350
+173
+initial-number-bees
+initial-number-bees
+0
+100
+78.0
+1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
