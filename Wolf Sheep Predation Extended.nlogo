@@ -97,7 +97,7 @@ to go
     polinizacao
   ]
 
-  ; if model-version = "sheep-wolves-grass" [ ask patches [ grow-grass ] ]
+   if model-version = "sheep-wolves-grass" [ ask patches [ grow-grass ] ]
 
   tick
   display-labels
@@ -170,15 +170,15 @@ to death-sheep
   ]
 end
 
-;to grow-grass  ; patch procedure
-;  ; countdown on brown patches: if you reach 0, grow some grass
-;  if pcolor = brown [
-;    ifelse countdown <= 0
-;      [ set pcolor green
-;        set countdown grass-regrowth-time ]
-;      [ set countdown countdown - 1 ]
-;  ]
-;end
+to grow-grass  ; patch procedure
+  ; countdown on brown patches: if you reach 0, grow some grass
+  if pcolor = brown [
+    ifelse countdown <= 0
+      [ set pcolor green
+        set countdown grass-regrowth-time ]
+      [ set countdown countdown - 1 ]
+  ]
+end
 
 to-report grass
   ifelse model-version = "sheep-wolves-grass" [
@@ -469,7 +469,7 @@ initial-number-bees
 initial-number-bees
 0
 100
-78.0
+0.0
 1
 1
 NIL
